@@ -1,0 +1,69 @@
+---
+import Base from "../layouts/Base.astro";
+
+// Simple test to make sure the page loads
+const pageTitle = "AIYA - Asian Impact Youth Association";
+const metaDescription = "AIYA Asian Impact Youth Association. AIYA is Culture & Awareness -> Voice & Youth.";
+
+---
+
+<Base
+	title={pageTitle}
+	description={metaDescription}
+>
+	<div class="home-page">
+		<h1>Welcome to AIYA</h1>
+		<p>AIYA Asian Impact Youth Association</p>
+		
+		<!-- 1. Hero Showcase Layer -->
+		<section class="hero-showcase">
+			<h2>AIYA Where Youth Belong!</h2>
+			<p>AIYA Asian Impact Youth Association.</p>
+		</section>
+		
+		<!-- 2. Content Blocks (simplified) -->
+		<div class="content-blocks">
+			<div class="block">
+				<h3>Culture & Youth Showcase</h3>
+				<p>Featured interactive digital showcase highlighting global youth culture and digital creation tools.</p>
+			</div>
+			
+			<div class="block">
+				<h3>Community Impact</h3>
+				<p>Building bridges between Asian communities and the broader society through youth engagement.</p>
+			</div>
+		</div>
+	</div>
+</Base>
+
+<style>
+	.home-page {
+		text-align: center;
+		padding: 2rem;
+	}
+	
+	.hero-showcase {
+		margin: 2rem 0;
+		padding: 2rem;
+		background: #f8fafc;
+		border-radius: 0.5rem;
+	}
+	
+	.content-blocks {
+		display: grid;
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+	
+	.block {
+		padding: 1.5rem;
+		background: #f1f5f9;
+		border-radius: 0.5rem;
+		text-align: left;
+	}
+	
+	.block h3 {
+		color: #3b82f6;
+		margin-bottom: 0.5rem;
+	}
+</style>

@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aiya-website",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-02-24",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+
+  // 1. D1 Database Bindings
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "emdash-db",
+      "database_id": "75fef07b-061c-4a73-bc85-5b48c171b7c2"
+    }
+  ],
+
+  // 2. R2 Object Storage Bucket Bindings
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "aiya-media-assets"
+    }
+  ],
+
+  // 3. Worker Loader Plugin Sandbox Engine
+  "worker_loaders": [
+    {
+      "binding": "LOADER"
+    }
+  ],
+
+  // 4. Maintenance, Plugin Cron, & Automated Scheduled Publishing
+  "triggers": {
+    "crons": [
+      "* * * * *"
+    ]
+  }
+}
+

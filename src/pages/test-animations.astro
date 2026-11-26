@@ -1,0 +1,136 @@
+---
+// Test page for animation verification
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .animation-test {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 1rem;
+            color: white;
+        }
+
+        .pulse-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 2rem auto;
+            animation: pulse 2s infinite;
+        }
+
+        .floating-shapes {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 2rem auto;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 20px;
+            height: 20px;
+            top: 0;
+            left: 30px;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 15px;
+            height: 15px;
+            top: 40px;
+            right: 20px;
+            animation-delay: 1s;
+        }
+
+        .shape-3 {
+            width: 25px;
+            height: 25px;
+            bottom: 20px;
+            left: 10px;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+
+        .test-button {
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .test-button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Animation Test Page</h1>
+    
+    <div class="animation-test">
+        <h2>AIYA Where Youth Belong!</h2>
+        <p>Testing animations in isolation</p>
+        
+        <div class="pulse-circle"></div>
+        
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+    
+    <a href="/" class="test-button">Back to Home</a>
+</body>
+</html>

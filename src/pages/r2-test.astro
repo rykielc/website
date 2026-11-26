@@ -1,0 +1,63 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="R2 Storage Test" description="Test page for R2 storage functionality">
+  <div class="r2-test-page">
+    <h1>R2 Storage Test</h1>
+    <p>This page demonstrates the R2 storage integration for AIYA website.</p>
+    
+    <div class="test-section">
+      <h2>Media Uploader</h2>
+      <p>Use the media uploader component to test R2 functionality:</p>
+      <a href="/media-uploader" class="btn btn-primary">Go to Media Uploader</a>
+    </div>
+    
+    <div class="test-section">
+      <h2>R2 Storage Info</h2>
+      <ul>
+        <li>Bucket Name: aiya-media-assets</li>
+        <li>Storage Type: Cloudflare R2</li>
+        <li>Media Base URL: https://aiya-media-assets.r2.dev/</li>
+        <li>Integration Status: <span style="color: green;">Active</span></li>
+      </ul>
+    </div>
+    
+    <div class="test-section">
+      <h2>Usage Examples</h2>
+      <p>Files are stored in R2 with unique keys following this pattern:</p>
+      <pre>media/&lt;filename&gt;-&lt;timestamp&gt;-&lt;random&gt;.ext</pre>
+      <p>Example usage in templates:</p>
+      <pre>&lt;img src="https://aiya-media-assets.r2.dev/media/example-video.mp4" /&gt;</pre>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .r2-test-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .test-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .test-section h2 {
+    color: #3b82f6;
+    margin-top: 0;
+  }
+  
+  pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+</style>

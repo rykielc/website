@@ -1,0 +1,196 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<!-- R2 Media Uploader Component -->
+<div class="r2-media-uploader">
+  <h1>AIYA Media Upload Portal</h1>
+  <p>Upload media files to Cloudflare R2 storage</p>
+  
+  <form id="media-upload-form" class="upload-form">
+    <div class="form-group">
+      <label for="file-input">Select File:</label>
+      <input type="file" id="file-input" name="file" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="folder-input">Folder Path (optional):</label>
+      <input type="text" id="folder-input" name="folder" placeholder="e.g., images/culture/" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Upload to R2</button>
+  </form>
+  
+  <div id="upload-status" class="upload-status"></div>
+  
+  <div id="uploaded-files" class="uploaded-files">
+    <h2>Uploaded Files</h2>
+    <ul id="files-list"></ul>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('media-upload-form');
+    const statusDiv = document.getElementById('upload-status');
+    const filesList = document.getElementById('files-list');
+    
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const fileInput = document.getElementById('file-input');
+      const folderInput = document.getElementById('folder-input');
+      
+      if (!fileInput.files.length) {
+        showStatus('Please select a file to upload', 'error');
+        return;
+      }
+      
+      const file = fileInput.files[0];
+      const folderPath = folderInput.value || '';
+      
+      try {
+        // Show uploading status
+        showStatus(`Uploading ${file.name}...`, 'info');
+        
+        // Upload file to R2
+        const response = await fetch('/api/upload-r2', {
+          method: 'POST',
+          body: JSON.stringify({
+            fileName: file.name,
+            folderPath: folderPath,
+            contentType: file.type
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          showStatus(`Successfully uploaded ${file.name}`, 'success');
+          
+          // Add to uploaded files list
+          addFileToList(result.key, file.name, result.size, result.uploadedAt);
+        } else {
+          const error = await response.text();
+          showStatus(`Upload failed: ${error}`, 'error');
+        }
+      } catch (error) {
+        showStatus(`Upload error: ${error.message}`, 'error');
+      }
+    });
+    
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = `upload-status ${type}`;
+    }
+    
+    function addFileToList(key, name, size, uploadedAt) {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <strong>${name}</strong> - ${formatFileSize(size)}<br>
+        <small>R2 Key: ${key}</small><br>
+        <small>Uploaded: ${new Date(uploadedAt).toLocaleString()}</small>
+      `;
+      filesList.appendChild(li);
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+  });
+</script>
+
+<style>
+  .r2-media-uploader {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .upload-form {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .upload-status {
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .upload-status.info {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+  }
+  
+  .upload-status.success {
+    background-color: #dcfce7;
+    border: 1px solid #a7f3d0;
+    color: #166534;
+  }
+  
+  .upload-status.error {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+  }
+  
+  .uploaded-files {
+    margin-top: 2rem;
+  }
+  
+  .uploaded-files ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .uploaded-files li {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+  }
+</style>
